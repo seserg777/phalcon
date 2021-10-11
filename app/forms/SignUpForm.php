@@ -28,8 +28,9 @@ class SignUpForm extends Form
         } else {
             $id = new Text('id');
         }
+        $this->add($id);
 
-        $username = new Text('username', ['placeholder' =>'username', 'class' => 'form-control']);
+        $username = new Text('name', ['placeholder' =>'username', 'class' => 'form-control']);
         $username->setLabel('username');
         $username->addValidators(array(
             new PresenceOf(array(
@@ -48,49 +49,36 @@ class SignUpForm extends Form
         ));
         $this->add($email);
 
-        $password = new Password('password', ['class' => 'form-control']);
-        $password->setLabel('password');
-        $password->addValidators(array(
-            new PresenceOf(array(
-                'message' => 'password is required'
-            )),
-            new StringLength(array(
-                'min' => 8,
-                'messageMinimum' => 'password min length 8 symbols'
-            )),
-            new Confirmation(array(
-                'message' => 'both passwords must match',
-                'with' => 'confirmPassword'
-            ))
-        ));
-        $this->add($password);
+        if (!isset($options['edit']) || !$options['edit']) {
+            $password = new Password('password', ['class' => 'form-control']);
+            $password->setLabel('password');
+            $password->addValidators(array(
+                new PresenceOf(['message' => 'password is required']),
+                new StringLength(['min' => 8, 'messageMinimum' => 'password min length 8 symbols']),
+                new Confirmation(['message' => 'both passwords must match', 'with' => 'confirmPassword'])
+            ));
+            $this->add($password);
+        }
 
-        $confirmPassword = new Password('confirmPassword', ['class' => 'form-control']);
-        $confirmPassword->setLabel('confirm password');
-        $confirmPassword->addValidators(array(
-            new PresenceOf(array(
-                'message' => 'The confirmation password is required'
-            ))
-        ));
-        $this->add($confirmPassword);
+        if (!isset($options['edit']) || !$options['edit']) {
+            $confirmPassword = new Password('confirmPassword', ['class' => 'form-control']);
+            $confirmPassword->setLabel('confirm password');
+            $confirmPassword->addValidators(array(
+                new PresenceOf(['message' => 'The confirmation password is required'])
+            ));
+            $this->add($confirmPassword);
+        }
 
-        $terms = new Check('terms', ['value' => 'yes']);
-        $terms->setLabel('accept the terms');
-        $terms->addValidator(
-            new Identical(array(
-                'value' => 'yes',
-                'message' => 'you must accept the terms'
-            ))
-        );
-        $this->add($terms);
+        if (!isset($options['edit']) || !$options['edit']) {
+            $terms = new Check('terms', ['value' => 'yes']);
+            $terms->setLabel('accept the terms');
+            $terms->addValidator(
+                new Identical(['value' => 'yes', 'message' => 'you must accept the terms'])
+            );
+            $this->add($terms);
+        }
 
         $csrf = new Hidden('csrf');
-        /*$csrf->addValidator(
-            new Identical(array(
-                'value' => $this->security->getToken(),
-                'message' => 'CSRF validation failed'
-            ))
-        );*/
         $csrf->addValidator( new Callback(
             [
                 "message" => "CSRF validation failed",
@@ -99,7 +87,11 @@ class SignUpForm extends Form
         ));
         $this->add($csrf);
 
-        $this->add(new Submit('Sign Up', ['class' => 'btn btn-primary pull-right']));
+        if (isset($options['edit']) && $options['edit']) {
+            $this->add(new Submit('Edit', ['class' => 'btn btn-primary pull-right']));
+        } else {
+            $this->add(new Submit('Sign Up', ['class' => 'btn btn-primary pull-right']));
+        }
     }
 
     /**

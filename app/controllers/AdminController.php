@@ -14,6 +14,7 @@ class AdminController extends Controller
 
     public function indexAction()
     {
+        $this->metatag->setTitle("Admin panel");
         $this->view->pick('admin/dashboard/index');
     }
 }

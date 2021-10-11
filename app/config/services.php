@@ -201,3 +201,7 @@ $di->set('acl', function () {
 $di->set('elements',function () {
     return new Elements();
 });
+
+$di->set('metatag', function() {
+    return new IzicaMetaTags();
+});

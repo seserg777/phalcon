@@ -31,7 +31,9 @@ class Auth extends \Phalcon\Di\Injectable
         //Check the password
         if (!$this->security->checkHash($credentials['password'], $user->password)) {
             $this->registerUserThrottling($user->id);
-            throw new Exception('Wrong email/password combination');
+            //throw new Exception('Wrong email/password combination');
+            $this->flash->error('Wrong email/password combination');
+            return false;
         }
 
         //Check if the user was flagged
@@ -49,6 +51,8 @@ class Auth extends \Phalcon\Di\Injectable
             'id' => $user->id,
             'name' => $user->name
         ));
+
+        return true;
     }
 
     /**

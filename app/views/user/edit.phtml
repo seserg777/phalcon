@@ -1,1 +1,16 @@
-edit user
+<h1>Edit user</h1>
+
+<?php echo $this->partial("partials/user_edit_nav");?>
+
+<form method='post'>
+    <?php foreach ($form as $element) {
+        $messages = $form->getMessagesFor( $element->getName() );?>
+        <div class="mb-3">
+            <?php echo '<label class="form-label" for="' . $element->getName() . '">' . $element->getLabel() . '</label>';
+            echo $element;
+            foreach ($messages as $message) {?>
+                <p class="form-text text-danger"><?php echo $message;?></p>
+            <?php } ?>
+        </div>
+    <?php } ?>
+</form>

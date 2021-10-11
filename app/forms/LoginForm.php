@@ -18,9 +18,7 @@ class LoginForm extends Form
 
     public function initialize()
     {
-        $email = new Text('email', array(
-            'placeholder' => 'Email'
-        ));
+        $email = new Text('email', ['placeholder' => 'Email', 'class' => 'form-control']);
         $email->addValidators(array(
             new PresenceOf(array(
                 'message' => 'e-mail is required'
@@ -32,9 +30,7 @@ class LoginForm extends Form
         $this->add($email);
 
 
-        $password = new Password('password', array(
-            'placeholder' => 'Password'
-        ));
+        $password = new Password('password', ['placeholder' => 'Password', 'class' => 'form-control']);
         $password->addValidator(
             new PresenceOf(array(
                 'message' => 'password is wrong'

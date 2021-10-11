@@ -11,12 +11,31 @@ $router->addGet(
 );
 
 $router->add(
-    '/admin/user/create',
+    '/admin/user/{id:[0-9]+}/edit',
     'User::edit'
 )->via(
     [
         'POST',
         'GET',
+    ]
+);
+
+$router->add(
+    '/admin/user/{id:[0-9]+}/edit/permissions',
+    'User::editPermissions'
+)->via(
+    [
+        'POST',
+        'GET',
+    ]
+);
+
+$router->add(
+    '/admin/users/permissions',
+    'Permissions::index'
+)->via(
+    [
+        'GET'
     ]
 );
 
@@ -44,19 +63,13 @@ $router->addGet(
     ]
 );
 
-$router->addGet(
+$router->add(
     '/login',
+    'User::login'
+)->via(
     [
-        'controller' => 'user',
-        'action'     => 'login',
-    ]
-);
-
-$router->addPost(
-    '/login',
-    [
-        'controller' => 'user',
-        'action'     => 'login',
+        'POST',
+        'GET',
     ]
 );
 
